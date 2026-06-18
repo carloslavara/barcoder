@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "preview": "npx serve@latest out"
   },
   "dependencies": {
     "@zxing/browser": "^0.1.5",

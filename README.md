@@ -36,8 +36,24 @@ Open the local URL shown by Next.js on a phone or browser with a camera. Camera 
 
 ```bash
 npm run build
-npm start
 ```
+
+The static export is written to `out/`. To preview it locally after building, run:
+
+```bash
+npm run preview
+```
+
+## Deploy on Vercel Hobby
+
+This project is designed for Vercel Hobby using the standard Next.js framework preset. It does not use Docker, Kubernetes, Azure, AWS ECS, managed databases, product lookup APIs, image generation APIs, or other cloud-specific services. The scanner and prompt generator run in the browser, and `next.config.ts` enables static export output for a simple serverless/static deployment path.
+
+Suggested Vercel settings:
+
+- Framework preset: `Next.js`
+- Install command: `npm install`
+- Build command: `npm run build`
+- Output directory: `out`
 
 ## Barcode → seed → traits logic
 

@@ -24,6 +24,18 @@ export default function BarcodeScanner() {
   const [result, setResult] = useState<CharacterResult | null>(null);
   const [copied, setCopied] = useState(false);
 
+  const videoConstraints = useMemo<MediaStreamConstraints>(
+    () => ({
+      audio: false,
+      video: {
+        facingMode: { ideal: "environment" },
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+      },
+    }),
+    [],
+  );
+
   const stopScanner = useCallback(() => {
     controlsRef.current?.stop();
     controlsRef.current = null;
@@ -48,8 +60,8 @@ export default function BarcodeScanner() {
     setScanHint("Requesting camera access...");
 
     try {
-      controlsRef.current = await reader.decodeFromVideoDevice(
-        undefined,
+      controlsRef.current = await reader.decodeFromConstraints(
+        videoConstraints,
         videoRef.current,
         (scanResult, scanError) => {
           if (scanResult) {
@@ -77,7 +89,7 @@ export default function BarcodeScanner() {
       );
       stopScanner();
     }
-  }, [reader, stopScanner]);
+  }, [reader, stopScanner, videoConstraints]);
 
   useEffect(() => {
     void startScanner();
@@ -89,8 +101,12 @@ export default function BarcodeScanner() {
       return;
     }
 
-    await navigator.clipboard.writeText(result.prompt);
-    setCopied(true);
+    try {
+      await navigator.clipboard.writeText(result.prompt);
+      setCopied(true);
+    } catch {
+      setError("Clipboard copy is unavailable in this browser. Select and copy the prompt manually.");
+    }
   }
 
   return (
