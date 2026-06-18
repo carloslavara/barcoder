@@ -1,0 +1,180 @@
+:root {
+  --background: #130f24;
+  --card: rgba(255, 255, 255, 0.1);
+  --card-strong: rgba(255, 255, 255, 0.16);
+  --text: #fff9ff;
+  --muted: #d9cce7;
+  --accent: #ff8bd1;
+  --accent-strong: #8ee7ff;
+  --danger: #ffb4b4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(255, 139, 209, 0.32), transparent 28rem),
+    radial-gradient(circle at bottom right, rgba(142, 231, 255, 0.28), transparent 24rem),
+    var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+  border: 0;
+  font: inherit;
+}
+
+.page-shell {
+  width: min(100%, 52rem);
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.hero {
+  margin-bottom: 1.25rem;
+}
+
+.eyebrow,
+.label,
+.trait span {
+  color: var(--accent-strong);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0.35rem 0 0.75rem;
+  font-size: clamp(2.15rem, 12vw, 4rem);
+  line-height: 0.95;
+}
+
+.hero p:not(.eyebrow),
+.status-text {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.scanner-card,
+.result-panel,
+.prompt-box,
+.trait {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 1.5rem;
+  background: var(--card);
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.24);
+}
+
+.scanner-card {
+  padding: 0.8rem;
+  backdrop-filter: blur(18px);
+}
+
+.camera-frame {
+  position: relative;
+  overflow: hidden;
+  min-height: 18rem;
+  border-radius: 1.1rem;
+  background: #060510;
+}
+
+.camera-video {
+  display: block;
+  width: 100%;
+  min-height: 18rem;
+  object-fit: cover;
+}
+
+.scan-line {
+  position: absolute;
+  inset: 50% 8% auto;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-strong), transparent);
+  box-shadow: 0 0 1.5rem var(--accent);
+}
+
+.status-text {
+  margin: 1rem 0;
+}
+
+.result-panel {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--card-strong);
+}
+
+.barcode-value {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 1.4rem;
+  overflow-wrap: anywhere;
+}
+
+.traits-grid {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.trait,
+.prompt-box {
+  padding: 0.9rem;
+}
+
+.trait strong {
+  display: block;
+  margin-top: 0.25rem;
+  text-transform: capitalize;
+}
+
+.prompt-box p {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.actions {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.primary-button,
+.secondary-button {
+  min-height: 3rem;
+  border-radius: 999px;
+  color: #16091c;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+}
+
+.secondary-button {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+@media (min-width: 680px) {
+  .page-shell {
+    padding-top: 4rem;
+  }
+
+  .scanner-card {
+    padding: 1rem;
+  }
+
+  .traits-grid,
+  .actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
