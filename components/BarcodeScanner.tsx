@@ -3,7 +3,7 @@
 import { BrowserMultiFormatReader } from "@zxing/browser";
 import type { IScannerControls } from "@zxing/browser";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { generateCharacterFromBarcode, type CharacterResult } from "@/lib/generator";
+import { generateCharacterFromBarcode, type CharacterResult } from "@/lib/generateCharacter";
 
 type ScannerStatus = "idle" | "starting" | "scanning" | "found" | "error";
 
@@ -12,6 +12,10 @@ const permissionMessage =
 
 function isPermissionError(error: unknown): boolean {
   return error instanceof DOMException && ["NotAllowedError", "PermissionDeniedError"].includes(error.name);
+}
+
+function formatTraitLabel(key: string): string {
+  return key.replace(/([A-Z])/g, " $1").replace(/^./, (letter) => letter.toUpperCase());
 }
 
 export default function BarcodeScanner() {
@@ -131,19 +135,32 @@ export default function BarcodeScanner() {
             <strong className="barcode-value">{result.barcode}</strong>
           </div>
 
-          <div className="traits-grid">
-            {Object.entries(result.traits).map(([key, value]) => (
-              <div className="trait" key={key}>
-                <span>{key.replace(/([A-Z])/g, " $1")}</span>
-                <strong>{value}</strong>
-              </div>
-            ))}
+          <div className="scene-event-card">
+            <span className="label">Scene event</span>
+            <strong>{result.traits.sceneEvent}</strong>
           </div>
 
-          <div className="prompt-box">
-            <span className="label">Generated prompt</span>
-            <p>{result.prompt}</p>
-          </div>
+          <details className="collapsible-section" open>
+            <summary>Character traits</summary>
+            <div className="traits-grid">
+              {Object.entries(result.traits)
+                .filter(([key]) => key !== "sceneEvent")
+                .map(([key, value]) => (
+                  <div className="trait" key={key}>
+                    <span>{formatTraitLabel(key)}</span>
+                    <strong>{value}</strong>
+                  </div>
+                ))}
+            </div>
+          </details>
+
+          <details className="collapsible-section" open>
+            <summary>Generated prompt</summary>
+            <div className="prompt-box">
+              <span className="label">Prompt text</span>
+              <p>{result.prompt}</p>
+            </div>
+          </details>
 
           <div className="actions">
             <button className="primary-button" type="button" onClick={copyPrompt}>
